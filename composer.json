@@ -5,7 +5,9 @@
         "ramsey/uuid": "^4.1",
         "fzaninotto/faker": "^1.9",
         "altorouter/altorouter": "^2.0",
-        "filp/whoops": "^2.9"
+        "filp/whoops": "^2.9",
+        "symfony/dotenv": "^5.2",
+      "ext-pdo": "*"
     },
     "autoload": {
         "psr-4": {

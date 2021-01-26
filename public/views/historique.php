@@ -2,7 +2,7 @@
 <?php require __DIR__ . "/components/navbar.php"; ?>
 
 <?php
-$stmt = $db->prepare("SELECT e.date_emprunt, e.date_restitution, c.nom, c.prenom, o.brand, o.os FROM Emprunt as e INNER JOIN Customer as c ON e.id_user = c.id INNER JOIN Computer as o ON e.id_computer = o.id ORDER BY e.date_restitution");
+$stmt = $db->prepare("SELECT e.id, e.date_emprunt, e.date_restitution, c.nom, c.prenom, o.brand, o.os FROM Emprunt as e INNER JOIN Customer as c ON e.id_user = c.id INNER JOIN Computer as o ON e.id_computer = o.id ORDER BY e.id DESC");
 $stmt->execute();
 $emprunts = $stmt->fetchAll();
 ?>
@@ -21,17 +21,27 @@ $emprunts = $stmt->fetchAll();
                     <th scope="col">Nom</th>
                     <th scope="col">Prénom</th>
                     <th scope="col">Ordinateur</th>
+
+                   <?php if(isset($_SESSION["user"])): ?>
+                        <th scope="col">Options</th>
+                   <?php endif ?>
+
                 </tr>
             </thead>
             <tbody>
-                <?php foreach($emprunts as $key => $emprunt): ?>
+                <?php foreach($emprunts as $emprunt): ?>
                     <tr>
-                        <th><?= $key ?></th>
+                        <th><?= $emprunt["id"] ?></th>
                         <td><?= $emprunt["date_emprunt"] ?></td>
                         <td><?= $emprunt["date_restitution"] ?></td>
                         <td><?= $emprunt["nom"] ?></td>
                         <td><?= $emprunt["prenom"] ?></td>
                         <td><?= $emprunt["brand"]." - ".$emprunt["os"] ?></td>
+
+                       <?php if(isset($_SESSION["user"])): ?>
+                            <td><a href="<?= $router->generate("empruntDetails", ["id" => $emprunt["id"]]) ?>" class="btn btn-sm btn-success">Détails</a></td>
+                       <?php endif ?>
+
                     </tr>
                 <?php endforeach ?>
             </tbody>

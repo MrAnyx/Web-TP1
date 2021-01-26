@@ -1,8 +1,3 @@
-<?php
-use App\Service\UrlGenerator;
-$urlGenerator = new UrlGenerator($router);
-?>
-
 <!doctype html>
 <html lang="fr">
 <head>

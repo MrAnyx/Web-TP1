@@ -45,13 +45,15 @@ CREATE TABLE User
 #------------------------------------------------------------
 CREATE TABLE Emprunt
 (
+    id Int Auto_increment NOT NULL,
     id_user         Int         NOT NULL,
     id_computer     Int         NOT NULL,
-    date_emprunt        Datetime    NOT NULL,
-    date_restitution    Datetime    NOT NULL,
+    date_emprunt        Datetime NOT NULL,
+    date_restitution    Datetime,
     etat            VARCHAR(255),
     commentaire     VARCHAR(255),
-    CONSTRAINT emprunt_Customer_FK FOREIGN KEY (id_user) REFERENCES Customer (id),
-    CONSTRAINT emprunt_Computer_FK FOREIGN KEY (id_computer) REFERENCES Computer (id)
+    CONSTRAINT Emprunt_PK PRIMARY KEY (id),
+    CONSTRAINT Emprunt_Customer_FK FOREIGN KEY (id_user) REFERENCES Customer (id),
+    CONSTRAINT Emprunt_Computer_FK FOREIGN KEY (id_computer) REFERENCES Computer (id)
 )ENGINE=InnoDB;
 

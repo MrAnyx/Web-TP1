@@ -6,7 +6,7 @@ require_once __DIR__ . "/bootstrap.php";
 
 $router = new AltoRouter();
 
-$dbConnection = new DBConnection("127.0.0.1", "secret", "homestead", "TP_1", "3306");
+$dbConnection = new DBConnection();
 $db = $dbConnection->getDB();
 
 $router->map("GET", "/", function() use($router, $db){
@@ -40,6 +40,15 @@ $router->map("GET", "/logout", function() use($router, $db){
    session_destroy();
    header("Location: {$router->generate("accueil")}");
 }, "logout");
+
+$router->map("GET", "/emprunt/details/[i:id]", function(int $id) use($router, $db){
+   if(!isset($_SESSION["user"])) {
+      header("Location: {$router->generate("accueil")}");
+   }else {
+      require __DIR__ . "/views/empruntDetails.php";
+   }
+}, "empruntDetails");
+$router->map("POST", "/emprunt/detail/[i:id]/submit", "App\FormSubmission#empruntDetails_form", "empruntDetails_form");
 
 $match = $router->match();
 

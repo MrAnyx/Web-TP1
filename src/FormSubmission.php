@@ -11,7 +11,7 @@ class FormSubmission
 
    public function __construct(\AltoRouter $router)
    {
-      $dbConnection = new DBConnection("127.0.0.1", "secret", "homestead", "TP_1", "3306");
+      $dbConnection = new DBConnection();
       $this->db = $dbConnection->getDB();
       $this->router = $router;
    }
@@ -38,22 +38,25 @@ class FormSubmission
 
    public function emprunt_form() {
       if(isset($_POST["submit"])) {
-         if(strtotime($_POST["date_debut"]) > strtotime($_POST["date_fin"])) {
-            header("Location: {$this->router->generate("emprunt")}?error=invalid_date");
-            die();
-         }
-         $addEmprunt = $this->db->prepare("INSERT INTO Emprunt(id_user, id_computer, date_emprunt, date_restitution, etat, commentaire) VALUES (:id_user, :id_computer, :date_emprunt, :date_restitution, :etat, :commentaire)");
+         $addEmprunt = $this->db->prepare("INSERT INTO Emprunt(id_user, id_computer, date_emprunt, etat, commentaire) VALUES (:id_user, :id_computer, :date_emprunt, :etat, :commentaire)");
          $addEmprunt->bindParam(":id_user", $_POST["emprunteur"]);
          $addEmprunt->bindParam(":id_computer", $_POST["ordinateur"]);
-         $addEmprunt->bindParam(":date_emprunt", $_POST["date_debut"]);
-         $addEmprunt->bindParam(":date_restitution", $_POST["date_fin"]);
+         $date_emprunt = (new \DateTime())->format("Y-m-d H:i:s");
+         $addEmprunt->bindParam(":date_emprunt", $date_emprunt);
          $addEmprunt->bindParam(":etat", $_POST["etat"]);
          $comment = htmlspecialchars($_POST["commentaire"]);
          $addEmprunt->bindParam(":commentaire", $comment);
          $addEmprunt->execute();
-
          header("Location: {$this->router->generate("emprunt")}?info=success");
-
       }
+   }
+
+   public function empruntDetails_form(int $id) {
+      $updateEmprunt = $this->db->prepare("UPDATE Emprunt SET date_restitution = :date_restitution WHERE id = :id");
+      $date_restitution = (new \DateTime())->format("Y-m-d H:i:s");
+      $updateEmprunt->bindParam(":date_restitution", $date_restitution);
+      $updateEmprunt->bindParam(":id", $id);
+      $updateEmprunt->execute();
+      header("Location: {$this->router->generate("historique")}");
    }
 }

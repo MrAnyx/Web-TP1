@@ -7,7 +7,7 @@ use App\DB\DBConnection;
 require_once __DIR__ . "/../../vendor/autoload.php";
 
 $faker = Factory::create();
-$dbConnection = new DBConnection("localhost", "secret", "homestead", "TP_1", "33060");
+$dbConnection = new DBConnection(["db_port" => "33060"]);
 $db = $dbConnection->getDB();
 
 $addCustomer = $db->prepare("INSERT INTO Customer(nom, prenom, coord, classe) VALUES (:nom, :prenom, :coord, :classe)");

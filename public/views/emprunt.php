@@ -17,12 +17,10 @@ $computers = $stmt->fetchAll();
 <div class="container-fluid mb-5">
     <div class="row justify-content-center">
         <div class="col-10 col-md-8 col-lg-6 mt-4" id="form-container">
-            <form method="POST" action="<?= $urlGenerator->generate("emprunt_form") ?>">
+            <form method="POST" action="<?= $router->generate("emprunt_form") ?>">
 
                <?php if(isset($_GET["info"]) && $_GET["info"] === "success"): ?>
                   <?php require __DIR__ . "/components/alert/success/success.php"; ?>
-               <?php elseif(isset($_GET["error"]) && $_GET["error"] === "invalid_date"): ?>
-                  <?php require __DIR__ . "/components/alert/errors/invalid_date.php"; ?>
                <?php endif ?>
 
                 <div class="mb-3">
@@ -40,14 +38,6 @@ $computers = $stmt->fetchAll();
                            <option value="<?= $computer["id"] ?>"><?= $computer["brand"]." - ".$computer["os"]." - ".$computer["cpu"]." - ".$computer["ram"] ?></option>
                        <?php endforeach; ?>
                     </select>
-                </div>
-                <div class="mb-3">
-                    <label for="date_debut">Date début</label>
-                    <input type="date" id="date_debut" class="form-control mt-2" name="date_debut" value="<?= (new DateTime())->format("Y-m-d") ?>" min="<?= (new DateTime())->format("Y-m-d") ?>">
-                </div>
-                <div class="mb-3">
-                    <label for="date_fin">Date Fin</label>
-                    <input type="date" id="date_fin" class="form-control mt-2" name="date_fin" value="<?= (new DateTime())->modify("+1 day")->format("Y-m-d") ?>" min="<?= (new DateTime())->modify("+1 day")->format("Y-m-d") ?>">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Etat</label>
