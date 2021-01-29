@@ -46,7 +46,40 @@ class ViewClass
    }
 
    public function historic() {
-      $stmt = $this->db->prepare("SELECT l.id, l.date_loan, l.date_restitution, c.last_name, c.first_name, o.brand, o.os FROM Loan as l INNER JOIN Customer as c ON l.id_user = c.id INNER JOIN Computer as o ON l.id_computer = o.id ORDER BY l.id DESC");
+      $sql = "SELECT l.id, l.date_loan, l.date_restitution, c.last_name, c.first_name, o.brand, o.os FROM Loan as l INNER JOIN Customer as c ON l.id_user = c.id INNER JOIN Computer as o ON l.id_computer = o.id";
+      $whereOption = "";
+      if(isset($_GET["value"]) && isset($_GET["option"]) && isset($_GET["submit"])) {
+         if($_GET["submit"] === "search") {
+            switch($_GET["option"]) {
+               case "start_date":
+                  $whereOption = "l.date_loan";
+                  break;
+               case "end_date":
+                  $whereOption = "l.date_restitution";
+                  break;
+               case "last_name":
+                  $whereOption = "c.last_name";
+                  break;
+               case "first_name":
+                  $whereOption = "c.first_name";
+                  break;
+               case "computer":
+                  $whereOption = "CONCAT(o.brand, ' - ', o.os)";
+                  break;
+            }
+            $sql .= " WHERE $whereOption LIKE :value ";
+         } elseif($_GET["submit"] === "reset") {
+             header("Location: {$this->router->generate("historic")}");
+         }
+      }
+
+      $sql .= " ORDER BY l.id DESC";
+      $stmt = $this->db->prepare($sql);
+
+      if(isset($_GET["value"]) && isset($_GET["option"]) && isset($_GET["submit"]) && $_GET["submit"] === "search") {
+         $value = "%{$_GET['value']}%";
+         $stmt->bindParam("value", $value);
+      }
       $stmt->execute();
       $loans = $stmt->fetchAll();
       require __DIR__ . "/../public/views/historic.php";
