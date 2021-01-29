@@ -1,23 +1,12 @@
 <?php require __DIR__ . "/../layout/header.php"; ?>
 <?php require __DIR__ . "/components/navbar.php"; ?>
 
-<?php
-$stmt = $db->prepare("SELECT id, nom, prenom FROM Customer ORDER BY nom");
-$stmt->execute();
-$customers = $stmt->fetchAll();
-
-$stmt = $db->prepare("SELECT id, brand, os, cpu, ram FROM Computer ORDER BY brand ASC");
-$stmt->execute();
-$computers = $stmt->fetchAll();
-?>
-
 <h1 class="text-center mt-3">Emprunt</h1>
-
 
 <div class="container-fluid mb-5">
     <div class="row justify-content-center">
         <div class="col-10 col-md-8 col-lg-6 mt-4" id="form-container">
-            <form method="POST" action="<?= $router->generate("emprunt_form") ?>">
+            <form method="POST" action="<?= $this->router->generate("emprunt_form") ?>">
 
                <?php if(isset($_GET["info"]) && $_GET["info"] === "success"): ?>
                   <?php require __DIR__ . "/components/alert/success/success.php"; ?>

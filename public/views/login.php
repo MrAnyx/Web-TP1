@@ -4,7 +4,7 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-10 col-md-8 col-lg-6 mt-4" id="form-container">
-            <form method="POST" action="<?= $router->generate("login_form") ?>">
+            <form method="POST" action="<?= $this->router->generate("login_form") ?>">
 
                 <?php if(isset($_GET["error"]) && $_GET["error"] === "no_account"): ?>
                     <?php require __DIR__ . "/components/alert/errors/account_not_found.php"; ?>

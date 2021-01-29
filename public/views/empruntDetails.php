@@ -1,20 +1,13 @@
 <?php require __DIR__ . "/../layout/header.php"; ?>
 <?php require __DIR__ . "/components/navbar.php"; ?>
 
-<?php
-$stmt = $db->prepare("SELECT e.id, e.date_emprunt, e.date_restitution, e.commentaire, c.nom, c.prenom, o.brand, o.os, o.cpu, o.ram, e.etat FROM Emprunt as e INNER JOIN Customer as c ON e.id_user = c.id INNER JOIN Computer as o ON e.id_computer = o.id WHERE e.id = :id");
-$stmt->bindParam(":id", $id);
-$stmt->execute();
-$emprunt = $stmt->fetch();
-?>
-
 <h1 class="text-center mt-3">Détails</h1>
 
 
 <div class="container-fluid mb-5">
     <div class="row justify-content-center">
         <div class="col-10 col-md-8 col-lg-6 mt-4" id="form-container">
-            <form method="POST" action="<?= $router->generate("empruntDetails_form", ["id" => $id]) ?>">
+            <form method="POST" action="<?= $this->router->generate("empruntDetails_form", ["id" => $id]) ?>">
 
                <?php if(isset($_GET["info"]) && $_GET["info"] === "success"): ?>
                   <?php require __DIR__ . "/components/alert/success/success.php"; ?>

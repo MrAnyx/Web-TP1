@@ -1,12 +1,6 @@
 <?php require __DIR__ . "/../layout/header.php"; ?>
 <?php require __DIR__ . "/components/navbar.php"; ?>
 
-<?php
-$stmt = $db->prepare("SELECT e.id, e.date_emprunt, e.date_restitution, c.nom, c.prenom, o.brand, o.os FROM Emprunt as e INNER JOIN Customer as c ON e.id_user = c.id INNER JOIN Computer as o ON e.id_computer = o.id ORDER BY e.id DESC");
-$stmt->execute();
-$emprunts = $stmt->fetchAll();
-?>
-
 <h1 class="text-center mt-3">Historique</h1>
 
 <div class="container-fluid mt-4 mb-4 px-4">
@@ -39,7 +33,7 @@ $emprunts = $stmt->fetchAll();
                         <td><?= $emprunt["brand"]." - ".$emprunt["os"] ?></td>
 
                        <?php if(isset($_SESSION["user"])): ?>
-                            <td><a href="<?= $router->generate("empruntDetails", ["id" => $emprunt["id"]]) ?>" class="btn btn-sm btn-success">Détails</a></td>
+                            <td><a href="<?= $this->router->generate("empruntDetails", ["id" => $emprunt["id"]]) ?>" class="btn btn-sm btn-success">Détails</a></td>
                        <?php endif ?>
 
                     </tr>
