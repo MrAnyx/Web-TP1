@@ -27,8 +27,8 @@ class FormSubmission
             header("Location: {$this->router->generate("login")}?error=no_account");
          } else {
             if(password_verify($_POST["password"], $result["password"])) {
-               $_SESSION["user"] = $result;
-               header("Location: {$this->router->generate("accueil")}");
+               $_SESSION["user"] = $result["username"];
+               header("Location: {$this->router->generate("home")}");
             } else {
                header("Location: {$this->router->generate("login")}?error=credentials");
             }
@@ -36,27 +36,27 @@ class FormSubmission
       }
    }
 
-   public function emprunt_form() {
+   public function loan_form() {
       if(isset($_POST["submit"])) {
-         $addEmprunt = $this->db->prepare("INSERT INTO Emprunt(id_user, id_computer, date_emprunt, etat, commentaire) VALUES (:id_user, :id_computer, :date_emprunt, :etat, :commentaire)");
-         $addEmprunt->bindParam(":id_user", $_POST["emprunteur"]);
-         $addEmprunt->bindParam(":id_computer", $_POST["ordinateur"]);
-         $date_emprunt = (new \DateTime())->format("Y-m-d H:i:s");
-         $addEmprunt->bindParam(":date_emprunt", $date_emprunt);
-         $addEmprunt->bindParam(":etat", $_POST["etat"]);
-         $comment = htmlspecialchars($_POST["commentaire"]);
-         $addEmprunt->bindParam(":commentaire", $comment);
-         $addEmprunt->execute();
-         header("Location: {$this->router->generate("emprunt")}?info=success");
+         $addLoan = $this->db->prepare("INSERT INTO Loan(id_user, id_computer, date_loan, state, comment) VALUES (:id_user, :id_computer, :date_loan, :state, :comment)");
+         $addLoan->bindParam(":id_user", $_POST["customer"]);
+         $addLoan->bindParam(":id_computer", $_POST["computer"]);
+         $date_loan = (new \DateTime())->format("Y-m-d H:i:s");
+         $addLoan->bindParam(":date_loan", $date_loan);
+         $addLoan->bindParam(":state", $_POST["state"]);
+         $comment = htmlspecialchars($_POST["comment"]);
+         $addLoan->bindParam(":comment", $comment);
+         $addLoan->execute();
+         header("Location: {$this->router->generate("loan")}?info=success");
       }
    }
 
-   public function empruntDetails_form(int $id) {
-      $updateEmprunt = $this->db->prepare("UPDATE Emprunt SET date_restitution = :date_restitution WHERE id = :id");
+   public function loanDetails_form(int $id) {
+      $updateLoan = $this->db->prepare("UPDATE Loan SET date_restitution = :date_restitution WHERE id = :id");
       $date_restitution = (new \DateTime())->format("Y-m-d H:i:s");
-      $updateEmprunt->bindParam(":date_restitution", $date_restitution);
-      $updateEmprunt->bindParam(":id", $id);
-      $updateEmprunt->execute();
-      header("Location: {$this->router->generate("historique")}");
+      $updateLoan->bindParam(":date_restitution", $date_restitution);
+      $updateLoan->bindParam(":id", $id);
+      $updateLoan->execute();
+      header("Location: {$this->router->generate("historic")}");
    }
 }

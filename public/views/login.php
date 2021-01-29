@@ -1,6 +1,6 @@
 <?php require __DIR__ . "/../layout/header.php"; ?>
 
-<h1 class="text-center mt-3">Connectez vous</h1>
+<h1 class="text-center mt-3">Sign in</h1>
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-10 col-md-8 col-lg-6 mt-4" id="form-container">
@@ -20,7 +20,7 @@
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control" id="password" name="password">
                 </div>
-                <button type="submit" name="submit" class="btn btn-outline-primary mt-3">Me connecter</button>
+                <button type="submit" name="submit" class="btn btn-outline-primary mt-3">Login</button>
             </form>
         </div>
     </div>

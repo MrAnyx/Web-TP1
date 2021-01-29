@@ -7,20 +7,20 @@ require_once __DIR__ . "/bootstrap.php";
 $router = new AltoRouter();
 
 // routes
-$router->map("GET", "/", "App\ViewClass#accueil", "accueil");
+$router->map("GET", "/", "App\ViewClass#home", "home");
 
 $router->map("GET", "/login", "App\ViewClass#login", "login");
 $router->map("POST", "/login/submit", "App\FormSubmission#login_form", "login_form");
 
-$router->map("GET", "/historique", "App\ViewClass#historique", "historique");
+$router->map("GET", "/historic", "App\ViewClass#historic", "historic");
 
-$router->map("GET", "/emprunt", "App\ViewClass#emprunt", "emprunt");
-$router->map("POST", "/emprunt/submit", "App\FormSubmission#emprunt_form", "emprunt_form");
+$router->map("GET", "/loan", "App\ViewClass#loan", "loan");
+$router->map("POST", "/loan/submit", "App\FormSubmission#loan_form", "loan_form");
 
 $router->map("GET", "/logout", "App\ViewClass#logout", "logout");
 
-$router->map("GET", "/emprunt/details/[i:id]", "App\ViewClass#empruntDetails", "empruntDetails");
-$router->map("POST", "/emprunt/detail/[i:id]/submit", "App\FormSubmission#empruntDetails_form", "empruntDetails_form");
+$router->map("GET", "/loan/details/[i:id]", "App\ViewClass#loanDetails", "loanDetails");
+$router->map("POST", "/loan/detail/[i:id]/submit", "App\FormSubmission#loanDetails_form", "loanDetails_form");
 
 $match = $router->match();
 

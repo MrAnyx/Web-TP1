@@ -10,11 +10,11 @@ $faker = Factory::create();
 $dbConnection = new DBConnection(["db_port" => "33060"]);
 $db = $dbConnection->getDB();
 
-$addCustomer = $db->prepare("INSERT INTO Customer(nom, prenom, coord, classe) VALUES (:nom, :prenom, :coord, :classe)");
-$addCustomer->bindParam(":nom", $nom);
-$addCustomer->bindParam(":prenom", $prenom);
-$addCustomer->bindParam(":coord", $coord);
-$addCustomer->bindParam(":classe", $classe);
+$addCustomer = $db->prepare("INSERT INTO Customer(last_name, first_name, contact, class) VALUES (:last_name, :first_name, :contact, :class)");
+$addCustomer->bindParam(":last_name", $last_name);
+$addCustomer->bindParam(":first_name", $first_name);
+$addCustomer->bindParam(":contact", $contact);
+$addCustomer->bindParam(":class", $class);
 
 $addComputer = $db->prepare("INSERT INTO Computer(serial, brand, os, cpu, ram) VALUES (:serial, :brand, :os, :cpu, :ram)");
 $addComputer->bindParam(":serial", $serial);
@@ -46,10 +46,10 @@ for($i = 0; $i<50; $i++) {
 }
 
 for($i = 0; $i<50; $i++) {
-   $nom = $faker->firstName;
-   $prenom = $faker->lastName;
-   $coord = $faker->address;
-   $classe = $faker->randomElement($classeList);
+   $last_name = $faker->firstName;
+   $first_name = $faker->lastName;
+   $contact = $faker->address;
+   $class = $faker->randomElement($classeList);
    $addCustomer->execute();
    $userIds[] = $db->lastInsertId();
 }

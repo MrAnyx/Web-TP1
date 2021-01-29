@@ -19,11 +19,11 @@ CREATE TABLE Computer
 #------------------------------------------------------------
 CREATE TABLE Customer
 (
-    id      Int Auto_increment NOT NULL,
-    nom     Varchar(50) NOT NULL,
-    prenom  Varchar(50) NOT NULL,
-    coord   Varchar(50) NOT NULL,
-    classe  Varchar(50),
+    id          Int Auto_increment NOT NULL,
+    first_name  Varchar(50) NOT NULL,
+    last_name   Varchar(50) NOT NULL,
+    contact     Varchar(50) NOT NULL,
+    class       Varchar(50),
     CONSTRAINT Customer_PK PRIMARY KEY (id)
 )ENGINE=InnoDB;
 
@@ -41,17 +41,17 @@ CREATE TABLE User
 
 
 #------------------------------------------------------------
-# Table: emprunt
+# Table: Loan
 #------------------------------------------------------------
-CREATE TABLE Emprunt
+CREATE TABLE Loan
 (
     id                  Int Auto_increment NOT NULL,
     id_user             Int NOT NULL,
     id_computer         Int NOT NULL,
-    date_emprunt        Datetime NOT NULL,
+    date_loan           Datetime NOT NULL,
     date_restitution    Datetime,
-    etat                VARCHAR(255),
-    commentaire         VARCHAR(255),
+    state               VARCHAR(255),
+    comment             VARCHAR(255),
     CONSTRAINT Emprunt_PK PRIMARY KEY (id),
     CONSTRAINT Emprunt_Customer_FK FOREIGN KEY (id_user) REFERENCES Customer (id),
     CONSTRAINT Emprunt_Computer_FK FOREIGN KEY (id_computer) REFERENCES Computer (id)

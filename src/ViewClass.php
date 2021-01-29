@@ -32,31 +32,31 @@ class ViewClass
       $this->db = $dbConnection->getDB();
    }
 
-   public function accueil() {
-      require __DIR__ . "/../public/views/accueil.php";
+   public function home() {
+      require __DIR__ . "/../public/views/home.php";
    }
 
    public function login()
    {
       if(isset($_SESSION["user"])) {
-         header("Location: {$this->router->generate("accueil")}");
+         header("Location: {$this->router->generate("home")}");
       } else {
          require __DIR__ . "/../public/views/login.php";
       }
    }
 
-   public function historique() {
-      $stmt = $this->db->prepare("SELECT e.id, e.date_emprunt, e.date_restitution, c.nom, c.prenom, o.brand, o.os FROM Emprunt as e INNER JOIN Customer as c ON e.id_user = c.id INNER JOIN Computer as o ON e.id_computer = o.id ORDER BY e.id DESC");
+   public function historic() {
+      $stmt = $this->db->prepare("SELECT l.id, l.date_loan, l.date_restitution, c.last_name, c.first_name, o.brand, o.os FROM Loan as l INNER JOIN Customer as c ON l.id_user = c.id INNER JOIN Computer as o ON l.id_computer = o.id ORDER BY l.id DESC");
       $stmt->execute();
-      $emprunts = $stmt->fetchAll();
-      require __DIR__ . "/../public/views/historique.php";
+      $loans = $stmt->fetchAll();
+      require __DIR__ . "/../public/views/historic.php";
    }
 
-   public function emprunt() {
+   public function loan() {
       if(!isset($_SESSION["user"])) {
-         header("Location: {$this->router->generate("accueil")}");
+         header("Location: {$this->router->generate("home")}");
       }else {
-         $stmt = $this->db->prepare("SELECT id, nom, prenom FROM Customer ORDER BY nom");
+         $stmt = $this->db->prepare("SELECT id, last_name, first_name FROM Customer ORDER BY last_name");
          $stmt->execute();
          $customers = $stmt->fetchAll();
 
@@ -64,26 +64,26 @@ class ViewClass
          $stmt->execute();
          $computers = $stmt->fetchAll();
 
-         require __DIR__ . "/../public/views/emprunt.php";
+         require __DIR__ . "/../public/views/loan.php";
       }
    }
 
    public function logout() {
       session_unset();
       session_destroy();
-      header("Location: {$this->router->generate("accueil")}");
+      header("Location: {$this->router->generate("home")}");
    }
 
-   public function empruntDetails(int $id) {
+   public function loanDetails(int $id) {
       if(!isset($_SESSION["user"])) {
-         header("Location: {$this->router->generate("accueil")}");
+         header("Location: {$this->router->generate("home")}");
       }else {
-         $stmt = $this->db->prepare("SELECT e.id, e.date_emprunt, e.date_restitution, e.commentaire, c.nom, c.prenom, o.brand, o.os, o.cpu, o.ram, e.etat FROM Emprunt as e INNER JOIN Customer as c ON e.id_user = c.id INNER JOIN Computer as o ON e.id_computer = o.id WHERE e.id = :id");
+         $stmt = $this->db->prepare("SELECT l.id, l.date_loan, l.date_restitution, l.comment, c.last_name, c.first_name, o.brand, o.os, o.cpu, o.ram, l.state FROM Loan as l INNER JOIN Customer as c ON l.id_user = c.id INNER JOIN Computer as o ON l.id_computer = o.id WHERE l.id = :id");
          $stmt->bindParam(":id", $id);
          $stmt->execute();
-         $emprunt = $stmt->fetch();
+         $loan = $stmt->fetch();
 
-         require __DIR__ . "/../public/views/empruntDetails.php";
+         require __DIR__ . "/../public/views/loanDetails.php";
       }
    }
 
