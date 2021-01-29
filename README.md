@@ -17,7 +17,7 @@ composer init
 
 2. Créer la base de données
 
-Executez le fichier `script.sql` dans votre base de données. 
+Executez le fichier `/includes/script.sql` dans votre base de données. 
 
 2. Modifier les identifiants à la base de données
 
