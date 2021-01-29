@@ -1,5 +1,7 @@
 # Web-TP1
 
+Pour voir le projet en entier : [Lien github](https://github.com/MrAnyx/Web-TP1)
+
 ## Pré-requis
 
 - PHP <= 7.4
@@ -21,7 +23,7 @@ Executez le fichier `script.sql` dans votre base de données.
 
 Rendez vous dans le fichier `/.env` à la racine du projet et modifiez les identifiants pour la base de données
  
-> Si, dans certains cas, vous avez besoin d'avoir d'autres identifiants, vous pouvez les modifier individuellement dans le code.
+> Si, dans certains cas, vous avez besoin d'avoir d'autres identifiants, vous pouvez les modifier individuellement dans le code. ($db_host, $db_user, $db_pass, $db_name, $db_port)
 >
 >```php
 >$dbConnection = new DBConnection(["db_port" => "33060"]);
