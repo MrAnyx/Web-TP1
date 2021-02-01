@@ -10,6 +10,8 @@
 
                <?php if(isset($_GET["info"]) && $_GET["info"] === "success"): ?>
                   <?php require __DIR__ . "/components/alert/success/success.php"; ?>
+               <?php elseif(isset($_GET["error"]) && $_GET["error"] === "invalid_date"): ?>
+                  <?php require __DIR__ . "/components/alert/error/invalid_date.php"; ?>
                <?php endif ?>
 
                 <div class="mb-3">
@@ -47,13 +49,13 @@
 
                 <div class="mb-3">
                     <label for="date_start" class="form-label">Date start</label>
-                    <input class="form-control" type="datetime-local" id="date_start" name="date_start" required value="<?= (new DateTime($loan["date_loan"]))->format("Y-m-d\TH:i") ?>">
+                    <input class="form-control" type="datetime-local" id="date_start" name="date_start" required max="<?= (new DateTime($loan["date_loan"]))->format("Y-m-d\TH:i") ?>" value="<?= (new DateTime($loan["date_loan"]))->format("Y-m-d\TH:i") ?>">
                 </div>
 
                <?php if($loan["date_restitution"] !== null): ?>
                     <div class="mb-3">
                         <label for="date_end" class="form-label">Date end</label>
-                        <input class="form-control" type="datetime-local" id="date_end" name="date_end" required value="<?= (new DateTime($loan["date_restitution"]))->format("Y-m-d\TH:i") ?>">
+                        <input class="form-control" type="datetime-local" id="date_end" name="date_end" required min="<?= (new DateTime($loan["date_loan"]))->format("Y-m-d\TH:i") ?>" value="<?= (new DateTime($loan["date_restitution"]))->format("Y-m-d\TH:i") ?>">
                     </div>
                <?php endif ?>
 
