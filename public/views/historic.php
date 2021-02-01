@@ -56,8 +56,8 @@
             <?php foreach($loans as $loan): ?>
                 <tr>
                     <th><?= $loan["id"] ?></th>
-                    <td><?= $loan["date_loan"] ?></td>
-                    <td><?= $loan["date_restitution"] ?></td>
+                    <td><?= (new DateTime($loan["date_loan"]))->format("l d, Y") ?></td>
+                    <td><?= $loan["date_restitution"] !== null ? (new DateTime($loan["date_restitution"]))->format("l d, Y") : "" ?></td>
                     <td><?= $loan["last_name"] ?></td>
                     <td><?= $loan["first_name"] ?></td>
                     <td><?= $loan["brand"]." - ".$loan["os"] ?></td>

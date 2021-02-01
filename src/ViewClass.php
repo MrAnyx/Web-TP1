@@ -111,10 +111,18 @@ class ViewClass
       if(!isset($_SESSION["user"])) {
          header("Location: {$this->router->generate("home")}");
       }else {
-         $stmt = $this->db->prepare("SELECT l.id, l.date_loan, l.date_restitution, l.comment, c.last_name, c.first_name, o.brand, o.os, o.cpu, o.ram, l.state FROM Loan as l INNER JOIN Customer as c ON l.id_user = c.id INNER JOIN Computer as o ON l.id_computer = o.id WHERE l.id = :id");
+         $stmt = $this->db->prepare("SELECT * FROM Loan WHERE id = :id");
          $stmt->bindParam(":id", $id);
          $stmt->execute();
          $loan = $stmt->fetch();
+
+         $stmt = $this->db->prepare("SELECT id, last_name, first_name FROM Customer ORDER BY last_name");
+         $stmt->execute();
+         $customers = $stmt->fetchAll();
+
+         $stmt = $this->db->prepare("SELECT id, brand, os, cpu, ram FROM Computer ORDER BY brand ASC");
+         $stmt->execute();
+         $computers = $stmt->fetchAll();
 
          require __DIR__ . "/../public/views/loanDetails.php";
       }

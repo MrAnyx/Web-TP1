@@ -52,11 +52,28 @@ class FormSubmission
    }
 
    public function loanDetails_form(int $id) {
-      $updateLoan = $this->db->prepare("UPDATE Loan SET date_restitution = :date_restitution WHERE id = :id");
-      $date_restitution = (new \DateTime())->format("Y-m-d H:i:s");
-      $updateLoan->bindParam(":date_restitution", $date_restitution);
-      $updateLoan->bindParam(":id", $id);
-      $updateLoan->execute();
+      if(isset($_POST["submit"])) {
+         $updateLoan = $this->db->prepare("UPDATE Loan SET date_restitution = :date_restitution WHERE id = :id");
+         $date_restitution = (new \DateTime())->format("Y-m-d H:i:s");
+         $updateLoan->bindParam(":date_restitution", $date_restitution);
+         $updateLoan->bindParam(":id", $id);
+         $updateLoan->execute();
+      } elseif(isset($_POST["update"])) {
+         $updateLoan = $this->db->prepare("UPDATE Loan SET date_restitution = :date_restitution,  id_user = :id_user, id_computer = :id_computer, state = :state, date_loan = :date_loan, comment = :comment WHERE id = :id");
+         if(isset($_POST["date_end"])) {
+            $updateLoan->bindParam(":date_restitution", $_POST["date_end"]);
+         } else {
+            $null_date = null;
+            $updateLoan->bindParam(":date_restitution", $null_date);
+         }
+         $updateLoan->bindParam(":id_user", $_POST["customer"]);
+         $updateLoan->bindParam(":id_computer", $_POST["computer"]);
+         $updateLoan->bindParam(":state", $_POST["state"]);
+         $updateLoan->bindParam(":date_loan", $_POST["date_start"]);
+         $updateLoan->bindParam(":comment", $_POST["comment"]);
+         $updateLoan->bindParam(":id", $id);
+         $updateLoan->execute();
+      }
       header("Location: {$this->router->generate("historic")}");
    }
 }
