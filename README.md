@@ -12,7 +12,7 @@ Pour voir le projet en entier : [Lien github](https://github.com/MrAnyx/Web-TP1)
 
 1. Installation des packages
 ```bash
-composer init
+composer install
 ```
 
 2. Créer la base de données
